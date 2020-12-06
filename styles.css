@@ -43,9 +43,9 @@ div {
 }
 
 button {
-    background-color: #419f6a;
-    border: none;
-    color: white;
+    background-color: #7f486b;
+    border: solid 3px;
+    color: rgb(17, 242, 66);
     border-radius: 8px;
     width: 25%;
     height: 30px;
