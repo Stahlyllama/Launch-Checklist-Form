@@ -18,12 +18,17 @@ window.addEventListener("load", function () {
       alert("All fields are required!");
       event.preventDefault();
     };
-
-    if (!isNaN(pilotNameInput.value) || !isNaN(copilotNameInput.value)) {
-      alert("Invalid Entry: Text is Required for Name Fields");
+//if Pilot Name entered value doesn't meet text data type this error is thrown
+    if (!isNaN(pilotNameInput.value)){
+      alert("Invalid Pilot Entry: Text is Required for Name Fields");
       event.preventDefault();
     };
-
+//if coPilot Name entered value doesn't meet text data type this error is thrown
+    if (!isNaN(copilotNameInput.value)) {
+      alert("Invalid CoPilot Entry: Text is Required for Name Fields");
+      event.preventDefault();
+    };
+//if numbers are not given for value of fuel or cargo mass, this error is thrown.
     if (isNaN(fuelLevelInput.value) || isNaN(cargoMassInput.value)) {
       alert("Invalid Entry: Numbers  are Required for Fuel and Cargo Fields");
       event.preventDefault();
@@ -50,43 +55,20 @@ window.addEventListener("load", function () {
     }
        event.preventDefault();
   });
-});
-
-async function getPlanets(){
-   let url = "https://handlers.education.launchcode.org/static/planets.json;"
-   try {
-      let res = await fetch(url);
-      return await res.json();
-   } catch(error){
-      console.log(error);
-   }
-}
-async function renderPlanets(){
-   let planets = await getPlanets();
-   let html = ' ' ;
-   planets.forEach(planet=> {
-      let htmlSegment = `<div id="missionTarget">
-                        <img src="${planet.imageURL}">
-                        <h2>Mission Destination</h2>
+  fetch("https://handlers.education.launchcode.org/static/planets.json")
+  .then(response => response.json()) 
+  .then(function(json) {
+  let div = document.getElementById("missionTarget");
+  let bonusDestination = Math.floor(Math.random() *json.length)
+  div.innerHTML = `<h2>Mission Destination</h2>
                         <ol>
-                          <li>"Name": ${planet.name}</li>
-                          <li>"Diameter": ${planet.diameter}</li>
-                          <li>"Star": ${planet.star}</li>
-                          <li>"Distance from Earth": ${planet.distance}</li>
-                          <li>"Number of Moons": ${planet.moons}</li>
+                          <li>Name: ${json[bonusDestination].name}</li>
+                          <li>Diameter: ${json[bonusDestination].diameter}</li>
+                          <li>Star: ${json[bonusDestination].star}</li>
+                          <li>Distance from Earth: ${json[bonusDestination].distance}</li>
+                          <li>Number of Moons: ${json[bonusDestination].moons}</li>
                      </ol>
-                     </div>`;
-                     html += htmlSegment;
-   });
-let container = document.querySelector('.container');
-container.innerHTML=html;
-}
-renderPlanets();
-fetch("https://handlers.education.launchcode.org/static/planets.json")
-.then(response => response.json())  // transform data into json
-.then(data =>{   //create and append the li's to the ul?
-   console.log('Success:', data);
-})
-.catch((error)=>{
-   console.error('Error:', error);
+                     <img src ="${json[bonusDestination].image}"/>`  
+      console.log('success', data);
+  });
 });
